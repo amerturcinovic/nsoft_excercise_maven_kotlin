@@ -68,7 +68,7 @@ class Scratch {
 }
 ```
 
-For more details on example usage see: [Example usage](fwcscoreboardlib/src/main/java/org/nsoft/exercise/scoreboard/example/App.java)
+For more details on example usage see: [Example usage](fwcscoreboardlib/src/main/kotlin/org/nsoft/exercise/scoreboard/example/App.kt)
 
 ### Notes and information for project
 - Implemented as simple maven library project in Java

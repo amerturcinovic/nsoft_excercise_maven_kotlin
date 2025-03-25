@@ -10,10 +10,10 @@ import org.nsoft.exercise.scoreboard.storage.SimpleInsertOrderedInMemoryCollecti
 class FootballWorldCupScoreBoard(
     private val repository: Repository = SimpleInsertOrderedInMemoryCollection()
 ) : TrackableScoreBoard {
-    override fun startMatch(homeTeamName: String, guestTeamName: String): MatchInfo {
-        validateArguments(homeTeamName, guestTeamName)
-        return repository.save(MatchDetailsEntity(homeTeamName, guestTeamName))
-    }
+    override fun startMatch(homeTeamName: String, guestTeamName: String) =
+        validateArguments(homeTeamName, guestTeamName).let {
+            repository.save(MatchDetailsEntity(homeTeamName, guestTeamName))
+        }
 
     override fun finishMatch(homeTeamName: String, guestTeamName: String) =
         repository.findByNames(homeTeamName, guestTeamName)?.let {
@@ -28,15 +28,12 @@ class FootballWorldCupScoreBoard(
             repository.update(matchInfo.toMatchEntity())
         } ?: throw IllegalArgumentException("Match is not in progress")
 
-    override fun toString(): String {
-        val sortedMatches: List<MatchInfo> = getSorted()
-
-        val stringBuilder = StringBuilder()
-        for (i in sortedMatches.indices) {
-            stringBuilder.append((i + 1)).append(". ").append(sortedMatches[i]).append("\n")
-        }
-        return stringBuilder.toString().replace("\\n$".toRegex(), "")
+    override fun toString() = getSorted().let {
+        buildString {
+            it.forEachIndexed { index, matchInfo -> appendLine("${index + 1}. $matchInfo") }
+        }.removeSuffix("\n")
     }
+
 
     private fun getSorted(): List<MatchInfo> = repository.all().stream().sorted().toList()
 
@@ -47,9 +44,11 @@ class FootballWorldCupScoreBoard(
             throw IllegalArgumentException("You must provide name for both teams")
         }
 
-    private fun validateScoreValues(matchInfo: MatchInfo, mathInfoInProgress: MatchInfo) = require(
-        (mathInfoInProgress.homeTeamScore > matchInfo.homeTeamScore || mathInfoInProgress.guestTeamScore > matchInfo.guestTeamScore).not()
-    ) {
-        throw IllegalArgumentException("Match score must be positive number an not less than current score")
+    private fun validateScoreValues(matchInfo: MatchInfo, mathInfoInProgress: MatchInfo) {
+        val scoreIsLessThanCurrent = mathInfoInProgress.homeTeamScore < matchInfo.homeTeamScore ||
+                mathInfoInProgress.guestTeamScore < matchInfo.guestTeamScore
+        require(scoreIsLessThanCurrent) {
+            throw IllegalArgumentException("Match score must be positive number an not less than current score")
+        }
     }
 }

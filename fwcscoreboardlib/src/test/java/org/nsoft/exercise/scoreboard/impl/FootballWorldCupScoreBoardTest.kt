@@ -16,7 +16,7 @@ class FootballWorldCupScoreBoardTest {
     }
 
     @Test
-    fun whenOneMatchStarted_ExpectToShow_OnScoreBoard() {
+    fun `when new match start expect to show on Score board`() {
         // given
         val expectedMatchInfo = MatchInfo("BRAZIL", 0, "ARGENTINA", 0)
 
@@ -29,7 +29,7 @@ class FootballWorldCupScoreBoardTest {
     }
 
     @Test
-    fun whenMatchAlreadyStarted_And_FinishedCalled_Expect_EmptyScoreBoard() {
+    fun `when match already started and finish called expect empty score board`() {
         // given
         val expectedEmptyScoreBoard = listOf<MatchInfo>()
 
@@ -42,7 +42,7 @@ class FootballWorldCupScoreBoardTest {
     }
 
     @Test
-    fun whenMatchAlreadyStarted_And_UpdatedCalled_ExpectToShow_OnScoreBoard() {
+    fun `when match already started and updated called expect to show on score board`() {
         // given
         val expectedMathInfoUpdate = MatchInfo("BRAZIL", 1, "ARGENTINA", 1)
 
@@ -56,7 +56,7 @@ class FootballWorldCupScoreBoardTest {
     }
 
     @Test
-    fun whenMultipleMachStarted_ExpectToShow_OnScoreBoard_SortedByMostRecentStart() {
+    fun `when multiple natch started expect to show on score board sorted by most recent start`() {
         // given
         val expectedMatchesInProgress = listOf(
             MatchInfo("CROATIA", 0, "ENGLAND", 0),
@@ -74,7 +74,7 @@ class FootballWorldCupScoreBoardTest {
     }
 
     @Test
-    fun whenMultipleMachStarted__And_UpdateScore_ExpectToShow_OnScoreBoard_SortedByMostScores_And_MostRecentStart() {
+    fun `when multiple match started and updated score expect to show on score board sorted by most scores and most recent start`() {
         // given
         val expectedMatchesInProgress = listOf(
             MatchInfo("SPAIN", 1, "FRANCE", 1),
@@ -112,7 +112,7 @@ class FootballWorldCupScoreBoardTest {
     }
 
     @Test
-    fun whenMatchAlreadyStarted_AndCalledStartAgain_Expect_Exception() {
+    fun `when match already started and called start again expect exception`() {
         // given
         val expectedMatchInfo = MatchInfo("BRAZIL", 0, "FRANCE", 0)
 
@@ -127,7 +127,7 @@ class FootballWorldCupScoreBoardTest {
     }
 
     @Test
-    fun whenUpdateMatchCalled_WithWrongScore_Expect_Exception() {
+    fun `when update match called with wrong score expect exception`() {
         // when
         footballScoreBoard.startMatch("BRAZIL", "FRANCE")
         footballScoreBoard.updateMatch(MatchInfo("BRAZIL", 2, "FRANCE", 1))
@@ -141,7 +141,7 @@ class FootballWorldCupScoreBoardTest {
     }
 
     @Test
-    fun whenFinish_Or_Update_MatchCalled_WhenMatchIsNotInProgress_Expect_Exception() {
+    fun `when finish or update match called when match is not in progress expect exception`() {
         assertThrows(IllegalArgumentException::class.java) {
             footballScoreBoard.finishMatch("BRAZIL", "ARGENTINA")
         }
@@ -154,39 +154,28 @@ class FootballWorldCupScoreBoardTest {
     }
 
     @Test
-    fun whenStartMatchCalled_WithInvalidArgument_Expect_Exception() {
+    fun `when start match called with wrong arguments expect exception`() {
         assertThrows(IllegalArgumentException::class.java) {
-            footballScoreBoard.startMatch(
-                "BRAZIL",
-                ""
-            )
+            footballScoreBoard.startMatch("ARGENTINA", "")
         }
+
         assertThrows(IllegalArgumentException::class.java) {
-            footballScoreBoard.startMatch(
-                "",
-                "ARGENTINA"
-            )
+            footballScoreBoard.startMatch("", "ARGENTINA")
         }
     }
 
     @Test
-    fun whenFinishMatchCalled_WithInvalidArgument_Expect_Exception() {
+    fun `when finish match called with wrong argument expect exception`() {
         assertThrows(IllegalArgumentException::class.java) {
-            footballScoreBoard.finishMatch(
-                "",
-                "BRAZIL"
-            )
+            footballScoreBoard.finishMatch("", "BRAZIL")
         }
         assertThrows(IllegalArgumentException::class.java) {
-            footballScoreBoard.finishMatch(
-                "BRAZIL",
-                ""
-            )
+            footballScoreBoard.finishMatch("BRAZIL", "")
         }
     }
 
     @Test
-    fun whenUpdateMatchCalled_WithInvalidArgument_Expect_Exception() {
+    fun `when update match called with wrong argument expect exception`() {
         assertThrows(IllegalArgumentException::class.java) {
             footballScoreBoard.updateMatch(
                 MatchInfo("", 1, "", 0)

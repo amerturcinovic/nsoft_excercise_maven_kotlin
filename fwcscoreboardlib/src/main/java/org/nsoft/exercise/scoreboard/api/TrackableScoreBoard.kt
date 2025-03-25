@@ -25,7 +25,7 @@ interface TrackableScoreBoard {
      * @see MatchInfo - check model MatchInfo and what information it has
      */
     @Throws(IllegalArgumentException::class)
-    fun finishMatch(homeTeamName: String, guestTeamName: String): MatchInfo
+    fun finishMatch(homeTeamName: String, guestTeamName: String): MatchInfo?
 
     /**
      *
@@ -49,4 +49,16 @@ interface TrackableScoreBoard {
     fun getBoardRanking(): List<MatchInfo>
 }
 
-data class MatchInfo(val homeTeamName: String, val homeTeamScore: Int, val guestTeamName: String, val guestTeamScore: Int)
+data class MatchInfo(
+    val homeTeamName: String,
+    val homeTeamScore: Int,
+    val guestTeamName: String,
+    val guestTeamScore: Int
+) : Comparable<MatchInfo> {
+    override fun compareTo(other: MatchInfo): Int {
+        return (other.homeTeamScore + other.guestTeamScore) - (homeTeamScore + guestTeamScore)
+    }
+    override fun toString(): String {
+        return "$homeTeamName $homeTeamScore - $guestTeamName $guestTeamScore"
+    }
+}

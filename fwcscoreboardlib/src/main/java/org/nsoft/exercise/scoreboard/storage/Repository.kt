@@ -42,7 +42,7 @@ class SimpleInsertOrderedInMemoryCollection : Repository {
         return matchDetailsEntity.toMatchInfo()
     }
 
-    override fun all(): List<MatchInfo> = storage.values.toList().asReversed().map { it.toMatchInfo() }.toList()
+    override fun all(): List<MatchInfo> = storage.values.toList().asReversed().map { it.toMatchInfo() }
 
     private fun toId(homeTeamName: String, guestTeamName: String) =
         MatchDetailsEntity(

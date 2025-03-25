@@ -42,36 +42,46 @@ This will `fwc-score-board-lib-1.0-SNAPSHOT.jar` in `./out` directory
 
 ## Example usage
 ### Default implementation
-```java
-class Scratch {
-    public static void main(String[] args) {
-        TrackableScoreBoard scoreBoard = new FootballWorldCupScoreBoard();
-        scoreBoard.startMatch("BRAZIL", "ARGENTINA");
-        scoreBoard.updateMatch(
-                new MatchInfo("BRAZIL", 1, "ARGENTINA", 0)
-        );
-        List<MatchInfo> boardRanking = scoreBoard.getBoardRanking();
-    }
-}
+```kotlin
+import org.nsoft.exercise.scoreboard.api.MatchInfo
+import org.nsoft.exercise.scoreboard.impl.FootballWorldCupScoreBoard
+
+val scoreBoard = FootballWorldCupScoreBoard()
+
+// Start new match
+scoreBoard.startMatch("BRAZIL", "ARGENTINA")
+
+// Update current match in progress
+scoreBoard.updateMatch(
+    MatchInfo("BRAZIL", 1, "ARGENTINA", 0)
+)
+
+// Get sorted list of matches by sort criteria
+val boardRanking = scoreBoard.getBoardRanking()
 ```
 ### Implementation with custom repository for score board
-```java
-class Scratch {
-    public static void main(String[] args) {
-        TrackableScoreBoard scoreBoard = new FootballWorldCupScoreBoard(
-                new SimpleOrderedInMemoryCollection()
-        );
-        scoreBoard.startMatch("BRAZIL", "ARGENTINA");
-        List<MatchInfo> boardRanking = scoreBoard.getBoardRanking(); // to get list of matches
-        System.out.println(boardRanking); // will call .toString() and return as: 1. BRAZIL 0 - ARGENTINA 0 
-    }
-}
+```kotlin
+import org.nsoft.exercise.scoreboard.api.MatchInfo
+import org.nsoft.exercise.scoreboard.impl.FootballWorldCupScoreBoard
+
+val scoreBoard = FootballWorldCupScoreBoard(
+    CustomStorageImplementation()
+)
+scoreBoard.startMatch("BRAZIL", "ARGENTINA")
+scoreBoard.updateMatch(
+    MatchInfo("BRAZIL", 1, "ARGENTINA", 0)
+)
+
+val boardRanking = scoreBoard.getBoardRanking()
+
+// Call finish match with name of teams
+scoreBoard.finishMatch("BRAZIL", "ARGENTINA")
 ```
 
 For more details on example usage see: [Example usage](fwcscoreboardlib/src/main/kotlin/org/nsoft/exercise/scoreboard/example/App.kt)
 
 ### Notes and information for project
-- Implemented as simple maven library project in Java
+- Implemented as simple maven library project in Kotlin
 - Implementation is covered by test cases
 - You have example of usage in `./example` folder
 - It is very simple to change sorting of score board or persistence of score board,

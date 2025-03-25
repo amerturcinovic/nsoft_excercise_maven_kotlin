@@ -1,3 +1,5 @@
+[![Java CI with Maven](https://github.com/amerturcinovic/nsoft_excercise_maven_kotlin/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/amerturcinovic/nsoft_excercise_maven_kotlin/actions/workflows/maven.yml)
+
 # turcinovic coding excercise Live Score Board
 
 ## Simple library implementation for Score Board of World Cup with Maven (Kotlin)

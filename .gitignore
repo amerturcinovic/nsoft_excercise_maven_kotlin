@@ -5,7 +5,7 @@ out/
 target
 excercise_task_score_board_lib.iml
 .idea
-./fwcscoreboardlib/fwcscoreboardlib.iml
+fwcscoreboardlib/fwcscoreboardlib.iml
 
 ### Eclipse ###
 .apt_generated
